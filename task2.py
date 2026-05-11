@@ -1,9 +1,11 @@
+# Можно продемонстрировать что ошибки могут остаться через test_calculate_average_random. Он показывает что мы не можем доверять всем вариантам, которые сами придумали и нужно использовать случайность.
 import unittest
+import random
 
 
 class AverageCalculator:
 
-    def calculate_average(self, numbers: list[int]):
+    def calculate_average(self, numbers: list[int]) -> float:
         if len(numbers) == 0:
             raise ValueError("numbers can not be empty")
         total: int = 0
@@ -37,6 +39,19 @@ class TestAverageCalculator(unittest.TestCase):
     def test_empty_list_raises_value_error(self):
         with self.assertRaises(ValueError):
             self.calculator.calculate_average([])
+
+    def test_calculate_average_random(self):
+        for i in range(1000):
+            elements_amount: int = random.randint(0, 100)
+            if elements_amount == 0:
+                with self.assertRaises(ValueError):
+                    self.calculator.calculate_average([])
+                continue
+            elements = []
+            for k in range(elements_amount):
+                elements.append(random.randint(-10, 10))
+            result = self.calculator.calculate_average(elements)
+            self.assertEqual(result, sum(elements) / len(elements))
 
 
 if __name__ == "__main__":
