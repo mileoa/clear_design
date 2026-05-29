@@ -1,4 +1,4 @@
-# В python гоник данных для даты нет. ISO формат учел. А часовой пояс нет.
+# ISO формат учел, а часовой пояс нет.
 from datetime import datetime
 import pytz
 
